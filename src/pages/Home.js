@@ -36,7 +36,7 @@ export default function Home() {
                                 <tr>
                                     <td>{campaigns.id}</td>
                                     <td>{campaigns.campaignName}</td>
-                                    <td>{campaigns.keywords}</td>
+                                    <td>{campaigns.keywords.join(", ")}</td>
                                     <td>{campaigns.bidAmount}</td>
                                     <td>{campaigns.campaignFund}</td>
                                     <td>{campaigns.status ? "On" : "Off"}</td>
