@@ -25,12 +25,12 @@ export default function AddCampaign() {
         let newErrors = {};
         if (!campaign.campaignName.trim()) newErrors.campaignName = "Campaign Name is required";
         if (campaign.keywords.length === 0) newErrors.keywords = "At least one keyword is required";
-        if (!campaign.bidAmount.trim()) newErrors.bidAmount = "Bid amount is required";
+        if (!campaign.bidAmount || isNaN(campaign.bidAmount)) newErrors.bidAmount = "Bid amount is required";
         else if (parseFloat(campaign.bidAmount) < minBidAmount) newErrors.bidAmount = `Bid amount must be at least ${minBidAmount}`;
-        if (!campaign.campaignFund.trim()) newErrors.campaignFund = "Campaign fund is required";
+        if (!campaign.campaignFund || isNaN(campaign.campaignFund)) newErrors.campaignFund = "Campaign fund is required";
         if (campaign.status === undefined || campaign.status === null) newErrors.status = "Status is required";
         if (!campaign.town.trim()) newErrors.town = "Town is required";
-        if (!campaign.radius.trim()) newErrors.radius = "Radius is required";
+        if (!campaign.radius || isNaN(campaign.radius)) newErrors.radius = "Radius is required";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0; 
