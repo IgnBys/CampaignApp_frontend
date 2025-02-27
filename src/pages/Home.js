@@ -14,6 +14,11 @@ export default function Home() {
         setCampaigns(result.data);
     }
 
+    const deleteCampaign = async (id) => {
+        await axios.delete(`http://localhost:8080/api/campaigns/${id}`);
+        loadCampaigns();
+    };
+
     return (
         <div className='container'>
             <div className='py-4'>
@@ -44,14 +49,24 @@ export default function Home() {
                                     <td>{campaigns.town}</td>
                                     <td>{campaigns.radius}</td>
                                     <td>
-                                        <button className="btn btn-primary mx-2">View</button>
+                                        <Link
+                                            className="btn btn-primary mx-2"
+                                            to={`/viewcampaign/${campaigns.id}`}
+                                        >
+                                            View
+                                        </Link>
                                         <Link
                                             className="btn btn-outline-primary mx-2"
                                             to={`/editcampaign/${campaigns.id}`}
                                         >
                                             Edit
                                         </Link>
-                                        <button className="btn btn-danger mx-2">Delete</button>
+                                        <button
+                                            className="btn btn-danger mx-2"
+                                            onClick={() => deleteCampaign(campaigns.id)}
+                                        >
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))
