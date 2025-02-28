@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import { useEmerald } from "./EmeraldContext";
 
 export default function AddCampaign() {
+    const { fetchEmeraldBalance } = useEmerald();
     let navigate = useNavigate();
-    const minBidAmount = 100;
+    const minBidAmount = 10;
     const towns = ["Kraków", "Warszawa", "Poznań", "Wrocław", "Gdańsk", "Lublin", "Szczecin"];
     const keywordOptions = ["Marketing", "Advertising", "SEO", "PPC", "Branding", "Technology"];
     const [campaign, setCampaign] = useState({
@@ -53,15 +55,26 @@ export default function AddCampaign() {
     const onSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
+        try {
         await axios.post("http://localhost:8080/api/campaigns", {
             ...campaign,
             status: campaign.status, 
             bidAmount: parseFloat(campaign.bidAmount), 
             campaignFund: parseFloat(campaign.campaignFund), 
             radius: parseInt(campaign.radius),
+
         });
 
+        fetchEmeraldBalance();
         navigate("/");
+    } catch (error) {
+        if (error.response && error.response.status === 400) {
+            alert("Error: Not enough funds on your Emerald balance!");
+        } else {
+            console.error("Error: ", error);
+            alert("Error: Not enough funds on your Emerald balance!");
+        }
+    }
     };
 
     return (

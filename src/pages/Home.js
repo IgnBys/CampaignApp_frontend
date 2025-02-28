@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useParams } from "react-router-dom";
+import { useEmerald } from "../campaigns/EmeraldContext";
 
 export default function Home() {
     const [campaigns, setCampaigns] = useState([])
+    const { fetchEmeraldBalance } = useEmerald();
 
     useEffect(() => {
         loadCampaigns();
@@ -17,6 +19,8 @@ export default function Home() {
     const deleteCampaign = async (id) => {
         await axios.delete(`http://localhost:8080/api/campaigns/${id}`);
         loadCampaigns();
+        fetchEmeraldBalance();
+
     };
 
     return (

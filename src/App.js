@@ -6,9 +6,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddCampaign from "./campaigns/AddCampaign";
 import EditCampaign from "./campaigns/EditCampaign";
 import ViewCampaign from "./campaigns/ViewCampaign";
+import { EmeraldProvider } from "./campaigns/EmeraldContext";
 
 function App() {
   return (
+    <EmeraldProvider>
     <div className="App">
       <Router>
         <Navbar />
@@ -21,6 +23,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+    </EmeraldProvider>
   );
 }
 
